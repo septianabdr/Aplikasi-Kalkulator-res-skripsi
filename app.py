@@ -471,7 +471,7 @@ def index():
                 c_i = label_vertex_c(i, m) if i <= 2 else label_vertex_x(i, m)
 
                 for j in range(1, m + 1):
-                    u_i_j = label_vertex_u_v(i, m) if i <= 2 else label_vertex_x(i, m)
+                    u_i_j = label_vertex_u_v_j(i, j, m) if i <= 2 else label_vertex_x(i, m)
                     uu = label_edge_uu(i, j, m)
                     wt_uu = calculate_edge_weight_uu(i, j, m)
                     edge_weights.append({
@@ -485,7 +485,7 @@ def index():
                     })
 
                 for j in range(1, m + 1):
-                    v_i_j = label_vertex_u_v(i, m) if i <= 2 else label_vertex_x(i, m)
+                    v_i_j = label_vertex_u_v_j(i, j, m) if i <= 2 else label_vertex_x(i, m)
                     vv = label_edge_vv(i, j, m)
                     wt_vv = calculate_edge_weight_vv(i, j, m)
                     edge_weights.append({
@@ -517,7 +517,7 @@ def index():
                 })
 
                 for j in range(1, m + 1):
-                    c_i_j = label_vertex_c(i, m) if i <= 2 else label_vertex_x(i, m)
+                    c_i_j = label_vertex_c_j(i, j, m) if i <= 2 else label_vertex_x(i, m)
                     cc = label_edge_cc(i, j, m)
                     wt_cc = calculate_edge_weight_cc(i, j, m)
                     edge_weights.append({
