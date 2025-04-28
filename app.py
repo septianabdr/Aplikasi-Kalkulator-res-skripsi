@@ -349,7 +349,50 @@ def export_csv():
                     
             else:
                 writer.writerow([f'{i}', uu, vv, cc, None, None, None, None])
-    
+
+    #Edge weight
+    writer.writerow([])
+    writer.writerow(['i', 'j', 'sisi', 'x', 'xy', 'y', 'Bobot'])
+    for i in range(1, n + 1):
+        u_i = label_vertex_u_v(i, m) if i <= 2 else label_vertex_x(i, m)
+        v_i = label_vertex_u_v(i, m) if i <= 2 else label_vertex_x(i, m)
+        c_i = label_vertex_c(i, m) if i <= 2 else label_vertex_x(i, m)
+
+        for j in range(1, m + 1):
+            u_i_j = label_vertex_u_v_j(i, j, m) if i <= 2 else label_vertex_x(i, m)
+            uu = label_edge_uu(i, j, m)
+            wt_uu = calculate_edge_weight_uu(i, j, m)
+            writer.writerow([i, j, f"u_{i} u_{i} ^ {j}", u_i, uu, u_i_j, wt_uu])             
+
+        for j in range(1, m + 1):
+            v_i_j = label_vertex_u_v_j(i, j, m) if i <= 2 else label_vertex_x(i, m)
+            vv = label_edge_vv(i, j, m)
+            wt_vv = calculate_edge_weight_vv(i, j, m)
+            writer.writerow([i, j, f"v_{i} v_{i} ^ {j}", v_i, vv, v_i_j, wt_vv])         
+
+        uc = label_edge_uc(i, m)
+        vc = label_edge_vc(i, m)
+        wt_uc = calculate_edge_weight_uc(i, m)
+        wt_vc = calculate_edge_weight_vc(i, m)
+        writer.writerow([i, None, f"u_{i} c_{i}", u_i, uc, c_i, wt_uc]) 
+        writer.writerow([i, None, f"v_{i} c_{i}", v_i, vc, c_i, wt_vc]) 
+
+        for j in range(1, m + 1):
+            c_i_j = label_vertex_c_j(i, j, m) if i <= 2 else label_vertex_x(i, m)
+            cc = label_edge_cc(i, j, m)
+            wt_cc = calculate_edge_weight_cc(i, j, m)
+            writer.writerow([i, j, f"c_{i} c_{i} ^ {j}", c_i, cc, c_i_j, wt_cc])
+
+        if i < n:
+            cu = label_edge_cu(i, m)
+            cv = label_edge_cv(i, m)
+            next_u = label_vertex_u_v(i + 1, m) if i + 1 <= 2 else label_vertex_x(i + 1, m)
+            next_v = label_vertex_u_v(i + 1, m) if i + 1 <= 2 else label_vertex_x(i + 1, m)
+            wt_cu = calculate_edge_weight_cu(i, m)
+            wt_cv = calculate_edge_weight_cv(i, m)
+            writer.writerow([i, None, f"c_{i} u_{i}", c_i, cu, next_u, wt_cu])
+            writer.writerow([i, None, f"c_{i} v_{i}", c_i, cv, next_v, wt_cv])
+
     # Konversi ke response
     output.seek(0)
     response = make_response(output.getvalue())
